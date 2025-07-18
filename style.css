@@ -1,0 +1,199 @@
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f7f8fa;
+}
+.container {
+    display: flex;
+    gap: 34px;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 24px auto 40px;
+    max-width: 1460px;
+}
+.panel {
+    background: #fff;
+    padding: 22px 18px 18px 18px;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px #0002;
+    min-width: 375px;
+    max-width: 520px;
+    width: 460px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.panel select {
+    padding: 6px 8px;
+    border-radius: 7px;
+    border: 1px solid #ccc;
+    margin-bottom: 4px;
+    font-size: 1rem;
+    min-width: 160px;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 3px;
+}
+.group-titulos,
+.group-fuentes {
+    margin-bottom: 0;
+}
+.row-colors {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.double-inline-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 9px;
+}
+.controls-move {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 3px;
+}
+.controls-move label {
+    font-size: 12px;
+}
+.triple-titulos-edit {
+    display: flex;
+    gap: 7px;
+    margin-bottom: 7px;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+.titulo-block {
+    background: #f9fafd;
+    border-radius: 9px;
+    box-shadow: 0 1px 4px #0001;
+    padding: 5px 4px 8px 6px;
+    min-width: 112px;
+    max-width: 155px;
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+.titulo-input {
+    font-weight: bold;
+    font-size: 1.01rem;
+    border: 1px solid #d2d5df;
+    border-radius: 5px;
+    padding: 4px 6px;
+    margin-bottom: 2px;
+    text-align: center;
+    background: #fff;
+}
+.titulo-row {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 1px;
+    flex-wrap: wrap;
+}
+.range-titulo {
+    flex: 1;
+    min-width: 18px;
+    max-width: 54px;
+}
+.range-titulo.short {
+    min-width: 13px;
+    max-width: 34px;
+}
+.short-range, .x-short {
+    min-width: 18px !important;
+    max-width: 44px !important;
+}
+.inline-label {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+#titulo1Vista, #titulo2Vista, #titulo3Vista {
+    font-family: 'Bookman Old Style', Bookman, 'URW Bookman L', serif;
+}
+.plantilla {
+    position: relative;
+    width: 920px;
+    height: 730px;
+    border-radius: 28px;
+    box-shadow: 0 8px 32px #0003;
+    overflow: hidden;
+    background: #fff;
+}
+.fondoPlantilla {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    position: absolute;
+    left: 0; top: 0;
+}
+.foto-marco {
+    position: absolute;
+    background: transparent;
+    border-radius: 14px;
+    z-index: 2;
+    box-shadow: 0 0 16px #0003;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    /* El tamaño lo pone el JS dinámico */
+}
+#foto-preview {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+.texto-vista {
+    position: absolute;
+    z-index: 3;
+    width: 470px;
+    pointer-events: none;
+}
+#nombreVista {
+    font-size: 32px;
+    font-weight: bold;
+    left: 340px;
+    top: 140px;
+    color: #ff4d36;
+    letter-spacing: 0.5px;
+    transition: all .18s;
+}
+#mensajeVista {
+    font-size: 20px;
+    left: 340px;
+    top: 200px;
+    color: #444;
+    line-height: 1.32;
+    transition: all .18s;
+    margin: 0;
+    text-align: left;
+}
+#fechaVista {
+    font-size: 20px;
+    left: 340px;
+    top: 340px;
+    color: #222;
+    transition: all .18s;
+}
+#imgFinalContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+}
+.small {
+    font-size: 13px;
+    color: #666;
+    margin-left: 4px;
+}

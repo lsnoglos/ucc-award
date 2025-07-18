@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reconocimiento UCC de la semana</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <div class="panel">
+
+        <div class="form-group group-fuentes">
+            <label>Fuente de Encabezado:</label>
+            <select id="fuenteTitulos">
+                <option value="'Bookman Old Style',Bookman,'URW Bookman L',serif">Bookman Old Style</option>
+                <option value="'Segoe UI',Arial,sans-serif">Segoe UI</option>
+                <option value="Arial,sans-serif">Arial</option>
+                <option value="'Times New Roman',Times,serif">Times New Roman</option>
+                <option value="Georgia,serif">Georgia</option>
+                <option value="'Courier New',monospace">Courier New</option>
+                <option value="'Comic Sans MS',cursive">Comic Sans MS</option>
+            </select>
+        </div>
+
+        <div class="triple-titulos-edit">
+          <div class="titulo-block">
+            <input type="text" id="titulo1" value="UCC" class="titulo-input">
+            <div class="titulo-row">
+              <input type="color" id="colorTitulo1" title="Color texto">
+              <input type="color" id="bordeTitulo1" title="Borde">
+              <input type="range" id="sizeTitulo1" min="32" max="120" value="120" class="range-titulo">
+              <label class="inline-label"><input type="checkbox" id="boldTitulo1" checked>Negrita</label>
+            </div>
+            <div class="titulo-row">
+              <span>X</span><input type="range" id="titulo1X" min="50" max="800" value="340" class="range-titulo short">
+              <span>Y</span><input type="range" id="titulo1Y" min="40" max="200" value="40" class="range-titulo short">
+            </div>
+          </div>
+          <div class="titulo-block">
+            <input type="text" id="titulo2" value="de la semana" class="titulo-input">
+            <div class="titulo-row">
+              <input type="color" id="colorTitulo2" title="Color texto">
+              <input type="color" id="bordeTitulo2" title="Borde">
+              <input type="range" id="sizeTitulo2" min="20" max="60" value="60" class="range-titulo">
+              <label class="inline-label"><input type="checkbox" id="boldTitulo2">Negrita</label>
+            </div>
+            <div class="titulo-row">
+              <span>X</span><input type="range" id="titulo2X" min="50" max="800" value="280" class="range-titulo short">
+              <span>Y</span><input type="range" id="titulo2Y" min="40" max="200" value="200" class="range-titulo short">
+            </div>
+          </div>
+          <div class="titulo-block">
+            <input type="text" id="titulo3" value="Colaborador" class="titulo-input">
+            <div class="titulo-row">
+              <input type="color" id="colorTitulo3" title="Color texto">
+              <input type="color" id="bordeTitulo3" title="Borde">
+              <input type="range" id="sizeTitulo3" min="20" max="70" value="70" class="range-titulo">
+              <label class="inline-label"><input type="checkbox" id="boldTitulo3">Negrita</label>
+            </div>
+            <div class="titulo-row">
+              <span>X</span><input type="range" id="titulo3X" min="50" max="800" value="260" class="range-titulo short">
+              <span>Y</span><input type="range" id="titulo3Y" min="40" max="200" value="145" class="range-titulo short">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+            <label>Foto de perfil y marco:</label>
+            <div class="row-colors">
+                <button type="button" id="marcoPrevio">←</button>
+                <span>Marco</span>
+                <button type="button" id="marcoSiguiente">→</button>
+                <input type="file" id="fotoEmpleado" accept="image/*">
+            </div>
+            <div class="double-inline-group">
+                <div>
+                    <label style="font-size:11px;">Foto X:</label>
+                    <input type="range" id="fotoX" min="50" max="300" value="151" class="short-range">
+                    <label style="font-size:11px;">Y:</label>
+                    <input type="range" id="fotoY" min="200" max="430" value="312" class="short-range">
+                    <label style="font-size:11px;">Ancho:</label>
+                    <input type="range" id="fotoW" min="100" max="300" value="170" class="short-range">
+                    <label style="font-size:11px;">Alto:</label>
+                    <input type="range" id="fotoH" min="100" max="320" value="210" class="short-range">
+                </div>
+                <div>
+                    <label style="font-size:11px;">Marco X:</label>
+                    <input type="range" id="marcoX" min="50" max="300" value="151" class="short-range">
+                    <label style="font-size:11px;">Y:</label>
+                    <input type="range" id="marcoY" min="200" max="430" value="312" class="short-range">
+                    <label style="font-size:11px;">Ancho:</label>
+                    <input type="range" id="marcoW" min="100" max="300" value="170" class="short-range">
+                    <label style="font-size:11px;">Alto:</label>
+                    <input type="range" id="marcoH" min="100" max="320" value="210" class="short-range">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group group-fuentes">
+            <label>Fuente del contenido:</label>
+            <select id="fuente">
+                <option value="'Segoe UI',Arial,sans-serif">Segoe UI</option>
+                <option value="'Bookman Old Style',Bookman,'URW Bookman L',serif">Bookman Old Style</option>
+                <option value="Arial,sans-serif">Arial</option>
+                <option value="'Times New Roman',Times,serif">Times New Roman</option>
+                <option value="Georgia,serif">Georgia</option>
+                <option value="'Courier New',monospace">Courier New</option>
+                <option value="'Comic Sans MS',cursive">Comic Sans MS</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Nombre del empleado:</label>
+            <input type="text" id="nombre" value="Ing. Noel López">
+            <input type="color" id="colorNombre" value="#154c79">
+            <input type="range" id="sizeNombre" min="18" max="50" value="32">
+            <span class="small">Tamaño</span>
+            <label><input type="checkbox" id="negritaNombre" checked> Negrita</label>
+        </div>
+        <div class="controls-move">
+            <label>Vertical <input type="range" min="170" max="370" value="270" id="nombreY"></label>
+            <label>Horizontal <input type="range" min="450" max="650" value="550" id="nombreX"></label>
+        </div>
+        <div class="form-group">
+            <label>Mensaje:</label>
+            <textarea id="mensaje" rows="3">Hoy te reconocemos por tu proactividad y apoyo en UCC Sede León.</textarea>
+            <label style="margin-top:6px;">Color del mensaje:
+                <input type="color" id="colorMensaje" value="#444444">
+            </label>
+        </div>
+        <div class="controls-move">
+            <label>Vertical <input type="range" min="220" max="420" value="320" id="mensajeY"></label>
+            <label>Horizontal <input type="range" min="350" max="550" value="450" id="mensajeX"></label>
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" id="negritaMensaje"> Negrita
+            </label>
+            <label>
+                <input type="checkbox" id="cursivaMensaje"> Cursiva
+            </label>
+            <label>Estilo:
+                <input type="radio" name="alignMensaje" value="left" id="mensajeNormal" checked> Normal
+                <input type="radio" name="alignMensaje" value="center" id="mensajeCentro"> Centrado
+                <input type="radio" name="alignMensaje" value="justify" id="mensajeJustificar"> Justificado
+            </label>
+        </div>
+        <div class="form-group">
+            <label>Fecha:</label>
+            <input type="text" id="fecha" value="07 de Julio 2025">
+            <input type="color" id="colorFecha" value="#1a1a1a">
+            <label><input type="checkbox" id="negritaFecha"> Negrita</label>
+            <label><input type="checkbox" id="cursivaFecha"> Cursiva</label>
+        </div>
+        <div class="controls-move">
+            <label>Vertical <input type="range" min="300" max="500" value="400" id="fechaY"></label>
+            <label>Horizontal <input type="range" min="350" max="550" value="450" id="fechaX"></label>
+        </div>
+
+        <button id="generarImg" type="button" style="margin-top:12px;">Generar imagen</button>
+        <div id="imgFinalContainer" style="margin-top:14px"></div>
+
+    </div>
+    <div class="plantilla" id="plantilla">
+
+        <span id="titulo1Vista">UCC</span>
+        <span id="titulo2Vista">de la semana</span>
+        <span id="titulo3Vista">Colaborador</span>
+
+        <img src="assets/fondo.png" class="fondoPlantilla" id="imgFondo">
+        <div class="foto-marco">
+            <canvas id="foto-preview"></canvas>
+        </div>
+        <span id="nombreVista" class="texto-vista"></span>
+        <p id="mensajeVista" class="texto-vista"></p>
+        <span id="fechaVista" class="texto-vista"></span>
+    </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
