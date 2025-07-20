@@ -293,7 +293,7 @@ function mostrarDialogoExportar(callback) {
         <label style="margin-left:22px;"><input type="radio" name="fmt" value="jpeg"> JPEG</label>
       </div>
       <div id="pngopts" style="margin-bottom:18px;">
-        <label><input type="checkbox" id="transparentOpt" checked> Transparent Background</label>
+        <label><input type="checkbox" id="transparentOpt"> Transparent Background</label>
       </div>
       <div id="jpegopts" style="margin-bottom:18px; display:none;">
         <label>Quality:
