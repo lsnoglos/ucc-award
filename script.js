@@ -295,6 +295,15 @@ function mostrarDialogoExportar(callback) {
       <div id="pngopts" style="margin-bottom:18px;">
         <label><input type="checkbox" id="transparentOpt" checked> Transparent Background</label>
       </div>
+      <div id="jpegopts" style="margin-bottom:18px; display:none;">
+        <label>Quality:
+            <select id="jpegQuality">
+                <option value="0.6">Low</option>
+                <option value="0.85" selected>Medium</option>
+                <option value="1">High</option>
+            </select>
+        </label>
+      </div>
       <div style="text-align:right;">
         <button id="btnCancel" style="margin-right:14px;">Cancel</button>
         <button id="btnExport" style="background:#154c79;color:#fff;padding:6px 20px;border:none;border-radius:5px;font-weight:bold;">Save</button>
@@ -303,9 +312,11 @@ function mostrarDialogoExportar(callback) {
     `;
     document.body.appendChild(modal);
 
+    // Mostrar/ocultar opciones según formato
     modal.querySelectorAll('input[name="fmt"]').forEach(radio => {
         radio.onchange = () => {
             modal.querySelector('#pngopts').style.display = (radio.value === 'png' && radio.checked) ? "block" : "none";
+            modal.querySelector('#jpegopts').style.display = (radio.value === 'jpeg' && radio.checked) ? "block" : "none";
         };
     });
 
@@ -318,8 +329,12 @@ function mostrarDialogoExportar(callback) {
     modal.querySelector('#btnExport').onclick = () => {
         let formato = modal.querySelector('input[name="fmt"]:checked').value;
         let transparente = modal.querySelector('#transparentOpt')?.checked ?? false;
+        let calidad = 1;
+        if (formato === "jpeg") {
+            calidad = parseFloat(modal.querySelector('#jpegQuality').value);
+        }
         document.body.removeChild(modal);
-        callback(formato, transparente);
+        callback(formato, transparente, calidad);
     };
 }
 
@@ -363,7 +378,7 @@ function wrapText(ctx, text, x, y, maxWidth, lineHeight, align = "left") {
 
 // ========== GENERA Y DESCARGA IMAGEN FINAL ==========
 
-function exportarImagenFinal(formato, transparente) {
+function exportarImagenFinal(formato, transparente, calidad) {
     const width = 920, height = 730;
     const canvas = document.createElement('canvas');
     canvas.width = width;
@@ -454,7 +469,7 @@ function exportarImagenFinal(formato, transparente) {
         // Descargar imagen
         let mimeType = (formato === "png") ? "image/png" : "image/jpeg";
         let nombreArchivo = `ucc_award_${Date.now()}.${formato}`;
-        let calidad = (formato === "jpeg") ? 0.95 : undefined;
+        let calidadFinal = (formato === "jpeg") ? calidad : undefined;
         canvas.toBlob(blob => {
             let url = URL.createObjectURL(blob);
             let a = document.createElement('a');
@@ -467,7 +482,7 @@ function exportarImagenFinal(formato, transparente) {
                 URL.revokeObjectURL(url);
                 document.body.removeChild(a);
             }, 100);
-        }, mimeType, calidad);
+        }, mimeType, calidadFinal);
     };
     imgMarco.crossOrigin = "anonymous";
     imgMarco.src = marcosDisponibles[idxMarco];
