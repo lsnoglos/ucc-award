@@ -108,10 +108,30 @@ body {
     min-width: 13px;
     max-width: 34px;
 }
-.short-range, .x-short {
+/* .short-range, .x-short {
     min-width: 18px !important;
     max-width: 44px !important;
+} */
+
+.fila-ajustes {
+    flex-direction: row !important;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 6px;
 }
+.fila-ajustes label, .fila-ajustes span {
+    margin-bottom: 0 !important;
+    font-size: 12px;
+}
+.short-range {
+    min-width: 30px;
+    max-width: 50px;
+    margin-left: 2px;
+    margin-right: 9px;
+    vertical-align: middle;
+}
+
 .inline-label {
     font-size: 12px;
     display: flex;
@@ -141,9 +161,9 @@ body {
 .foto-marco {
     position: absolute;
     background: transparent;
-    border-radius: 14px;
+    border-radius: 7px;
     z-index: 2;
-    box-shadow: 0 0 16px #0003;
+    /* box-shadow: 0 0 16px #0003; */
     display: flex;
     justify-content: center;
     align-items: center;
