@@ -468,7 +468,7 @@ function exportarImagenFinal(formato, transparente, calidad) {
 
         // Descargar imagen
         let mimeType = (formato === "png") ? "image/png" : "image/jpeg";
-        let nombreArchivo = `ucc_award_${Date.now()}.${formato}`;
+        let nombreArchivo = `UCC__${Date.now()}.${formato}`;
         let calidadFinal = (formato === "jpeg") ? calidad : undefined;
         canvas.toBlob(blob => {
             let url = URL.createObjectURL(blob);
