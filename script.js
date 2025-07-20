@@ -2,29 +2,35 @@
 // Configuración General
 // =======================
 
-// Estado de foto y marco
 let fotoCargada = null;
 let idxMarco = 0;
 
-// Configuraciones editables por el usuario
 let fotoCfg = {
-    x: 151,   // default igual que antes
-    y: 412,
-    w: 170,
-    h: 210
+    x: 60,
+    y: 315,
+    w: 270,
+    h: 310
 };
 let marcoCfg = {
-    x: 151,
-    y: 412,
-    w: 170,
-    h: 210
+    x: 60,
+    y: 315,
+    w: 270,
+    h: 310
 };
 
 const marcosDisponibles = [
+    "assets/m0.png",
     "assets/m1.png",
     "assets/m2.png",
     "assets/m3.png",
-    "assets/m4.png"
+    "assets/m4.png",
+    "assets/m5.png",
+    "assets/m6.png",
+    "assets/m7.png",
+    "assets/m8.png",
+    "assets/m9.png",
+    "assets/m10.png",
+    "assets/m11.png"
 ];
 
 // ========== Selección de elementos =============
@@ -107,14 +113,14 @@ const titulos = [
 ];
 
 // ========== EVENTOS PARA SLIDERS DE FOTO Y MARCO ==========
-[fotoX, fotoY, fotoW, fotoH].forEach(el => el.oninput = function() {
+[fotoX, fotoY, fotoW, fotoH].forEach(el => el.oninput = function () {
     fotoCfg.x = parseInt(fotoX.value);
     fotoCfg.y = parseInt(fotoY.value);
     fotoCfg.w = parseInt(fotoW.value);
     fotoCfg.h = parseInt(fotoH.value);
     dibujarPreviewFotoConMarco();
 });
-[marcoX, marcoY, marcoW, marcoH].forEach(el => el.oninput = function() {
+[marcoX, marcoY, marcoW, marcoH].forEach(el => el.oninput = function () {
     marcoCfg.x = parseInt(marcoX.value);
     marcoCfg.y = parseInt(marcoY.value);
     marcoCfg.w = parseInt(marcoW.value);
@@ -126,24 +132,35 @@ const titulos = [
 [nombreX, nombreY, mensajeX, mensajeY, fechaX, fechaY].forEach(el => el.oninput = updateVista);
 
 // ================== EVENTOS BOTONES MARCO ==================
-btnMarcoPrev.onclick = function() {
+btnMarcoPrev.onclick = function () {
     idxMarco = (idxMarco - 1 + marcosDisponibles.length) % marcosDisponibles.length;
     dibujarPreviewFotoConMarco();
 };
-btnMarcoNext.onclick = function() {
+btnMarcoNext.onclick = function () {
     idxMarco = (idxMarco + 1) % marcosDisponibles.length;
     dibujarPreviewFotoConMarco();
 };
 
-// ================== CARGA DE FOTO ==================
-fotoInput.addEventListener('change', function(e) {
+// ================== CARGA FOTO ==================
+fotoInput.addEventListener('change', function (e) {
     const file = e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = function(ev) {
+    reader.onload = function (ev) {
         const img = new window.Image();
-        img.onload = function() {
+        img.onload = function () {
             fotoCargada = img;
+
+            fotoCfg.x = 0;
+            fotoCfg.y = 0;
+            fotoCfg.w = marcoCfg.w;
+            fotoCfg.h = marcoCfg.h;
+
+            fotoX.value = fotoCfg.x;
+            fotoY.value = fotoCfg.y;
+            fotoW.value = fotoCfg.w;
+            fotoH.value = fotoCfg.h;
+
             dibujarPreviewFotoConMarco();
         }
         img.src = ev.target.result;
@@ -156,39 +173,27 @@ function dibujarPreviewFotoConMarco() {
     fotoPreview.width = marcoCfg.w;
     fotoPreview.height = marcoCfg.h;
     const ctx = fotoPreview.getContext('2d');
-    ctx.clearRect(0,0,fotoPreview.width,fotoPreview.height);
+    ctx.clearRect(0, 0, fotoPreview.width, fotoPreview.height);
 
-    // Dibuja la foto con "cover", dentro del marco (relativo a la posición y tamaño de la foto)
     if (fotoCargada) {
-        const marcoAR = fotoCfg.w / fotoCfg.h;
-        const imgAR = fotoCargada.width / fotoCargada.height;
-        let sx, sy, sw, sh;
-        if (imgAR > marcoAR) {
-            sh = fotoCargada.height;
-            sw = sh * marcoAR;
-            sx = (fotoCargada.width - sw) / 2;
-            sy = 0;
-        } else {
-            sw = fotoCargada.width;
-            sh = sw / marcoAR;
-            sx = 0;
-            sy = (fotoCargada.height - sh) / 2;
-        }
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(0, 0, marcoCfg.w, marcoCfg.h);
+        ctx.clip();
         ctx.drawImage(
-            fotoCargada, sx, sy, sw, sh,
-            fotoCfg.x - marcoCfg.x,
-            fotoCfg.y - marcoCfg.y,
-            fotoCfg.w, fotoCfg.h
+            fotoCargada,
+            0, 0, fotoCargada.width, fotoCargada.height,
+            fotoCfg.x, fotoCfg.y, fotoCfg.w, fotoCfg.h
         );
+        ctx.restore();
     }
-    // Dibuja el marco encima (debe llenar todo el canvas)
+
     const marcoImg = new window.Image();
-    marcoImg.onload = function() {
+    marcoImg.onload = function () {
         ctx.drawImage(marcoImg, 0, 0, marcoCfg.w, marcoCfg.h);
     };
     marcoImg.src = marcosDisponibles[idxMarco];
 
-    // Coloca el canvas en el div correctamente posicionado (la posición la da el div .foto-marco desde el CSS y el JS)
     const marcoDiv = document.querySelector('.foto-marco');
     marcoDiv.style.left = marcoCfg.x + "px";
     marcoDiv.style.top = marcoCfg.y + "px";
@@ -250,8 +255,8 @@ function updateVista() {
     mensajeVista.style.fontStyle = cursivaMensaje.checked ? "italic" : "normal";
     mensajeVista.style.fontFamily = fuenteInput.value;
     mensajeVista.style.color = colorMensaje.value;
-    if(mensajeCentro.checked) mensajeVista.style.textAlign = 'center';
-    else if(mensajeJustificar.checked) mensajeVista.style.textAlign = 'justify';
+    if (mensajeCentro.checked) mensajeVista.style.textAlign = 'center';
+    else if (mensajeJustificar.checked) mensajeVista.style.textAlign = 'justify';
     else mensajeVista.style.textAlign = 'left';
 
     // Fecha
@@ -269,41 +274,98 @@ function updateVista() {
 }
 
 // ========== GENERA IMAGEN FINAL ==============
-document.getElementById('generarImg').onclick = function() {
+// ========== MODAL PARA EXPORTAR Y DESCARGAR ==========
+function mostrarDialogoExportar(callback) {
+    let modal = document.createElement('div');
+    modal.style.position = "fixed";
+    modal.style.left = 0; modal.style.top = 0;
+    modal.style.right = 0; modal.style.bottom = 0;
+    modal.style.background = "rgba(0,0,0,.4)";
+    modal.style.zIndex = 9999;
+    modal.style.display = "flex";
+    modal.style.alignItems = "center";
+    modal.style.justifyContent = "center";
+    modal.innerHTML = `
+    <div style="background:#fff;padding:28px 40px 28px 40px; border-radius:18px; box-shadow:0 8px 44px #0004;min-width:320px;max-width:95vw;">
+      <h2 style="margin-bottom:18px;font-size:1.2em;">Export Image</h2>
+      <div style="margin-bottom:18px;">
+        <label><input type="radio" name="fmt" value="png" checked> PNG</label>
+        <label style="margin-left:22px;"><input type="radio" name="fmt" value="jpeg"> JPEG</label>
+      </div>
+      <div id="pngopts" style="margin-bottom:18px;">
+        <label><input type="checkbox" id="transparentOpt" checked> Transparent Background</label>
+      </div>
+      <div style="text-align:right;">
+        <button id="btnCancel" style="margin-right:14px;">Cancel</button>
+        <button id="btnExport" style="background:#154c79;color:#fff;padding:6px 20px;border:none;border-radius:5px;font-weight:bold;">Save</button>
+      </div>
+    </div>
+    `;
+    document.body.appendChild(modal);
+
+    modal.querySelectorAll('input[name="fmt"]').forEach(radio => {
+        radio.onchange = () => {
+            modal.querySelector('#pngopts').style.display = (radio.value === 'png' && radio.checked) ? "block" : "none";
+        };
+    });
+
+    // Botón Cancelar
+    modal.querySelector('#btnCancel').onclick = () => {
+        document.body.removeChild(modal);
+    };
+
+    // Botón Guardar
+    modal.querySelector('#btnExport').onclick = () => {
+        let formato = modal.querySelector('input[name="fmt"]:checked').value;
+        let transparente = modal.querySelector('#transparentOpt')?.checked ?? false;
+        document.body.removeChild(modal);
+        callback(formato, transparente);
+    };
+}
+
+// ========== GENERA Y DESCARGA IMAGEN FINAL ==========
+document.getElementById('generarImg').onclick = function () {
+    mostrarDialogoExportar((formato, transparente) => {
+        exportarImagenFinal(formato, transparente);
+    });
+};
+
+function exportarImagenFinal(formato, transparente) {
     const width = 920, height = 730;
     const canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
     const ctx = canvas.getContext('2d');
+
+    // Fondo
+    if (formato === "png" && transparente) {
+        ctx.clearRect(0, 0, width, height);
+    } else {
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0, 0, width, height);
+    }
     const fondo = document.getElementById('imgFondo');
     ctx.drawImage(fondo, 0, 0, width, height);
 
     // Dibuja la foto
     if (fotoCargada) {
-        const marcoAR = fotoCfg.w / fotoCfg.h;
-        const imgAR = fotoCargada.width / fotoCargada.height;
-        let sx, sy, sw, sh;
-        if (imgAR > marcoAR) {
-            sh = fotoCargada.height;
-            sw = sh * marcoAR;
-            sx = (fotoCargada.width - sw) / 2;
-            sy = 0;
-        } else {
-            sw = fotoCargada.width;
-            sh = sw / marcoAR;
-            sx = 0;
-            sy = (fotoCargada.height - sh) / 2;
-        }
         ctx.save();
         ctx.beginPath();
-        ctx.roundRect(fotoCfg.x, fotoCfg.y, fotoCfg.w, fotoCfg.h, 14);
+        ctx.rect(marcoCfg.x, marcoCfg.y, marcoCfg.w, marcoCfg.h);
         ctx.clip();
-        ctx.drawImage(fotoCargada, sx, sy, sw, sh, fotoCfg.x, fotoCfg.y, fotoCfg.w, fotoCfg.h);
+        ctx.drawImage(
+            fotoCargada,
+            0, 0, fotoCargada.width, fotoCargada.height,
+            marcoCfg.x + fotoCfg.x,
+            marcoCfg.y + fotoCfg.y,
+            fotoCfg.w,
+            fotoCfg.h
+        );
         ctx.restore();
     }
     // Marco PNG sobre la foto
     let imgMarco = new window.Image();
-    imgMarco.onload = function() {
+    imgMarco.onload = function () {
         ctx.drawImage(imgMarco, marcoCfg.x, marcoCfg.y, marcoCfg.w, marcoCfg.h);
 
         // Títulos triples
@@ -358,11 +420,25 @@ document.getElementById('generarImg').onclick = function() {
         ctx.textBaseline = 'top';
         ctx.fillText(fechaInput.value, fechaXv, fechaYv);
 
-        // Mostrar resultado
-        let out = document.getElementById('imgFinalContainer');
-        out.innerHTML = "";
-        out.appendChild(canvas);
+        // Descargar imagen
+        let mimeType = (formato === "png") ? "image/png" : "image/jpeg";
+        let nombreArchivo = `ucc_award_${Date.now()}.${formato}`;
+        let calidad = (formato === "jpeg") ? 0.95 : undefined;
+        canvas.toBlob(blob => {
+            let url = URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.style.display = "none";
+            a.href = url;
+            a.download = nombreArchivo;
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+                URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            }, 100);
+        }, mimeType, calidad);
     };
+    imgMarco.crossOrigin = "anonymous";
     imgMarco.src = marcosDisponibles[idxMarco];
 }
 
