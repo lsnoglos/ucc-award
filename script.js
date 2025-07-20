@@ -330,6 +330,34 @@ document.getElementById('generarImg').onclick = function () {
     });
 };
 
+function wrapText(ctx, text, x, y, maxWidth, lineHeight, align = "left") {
+    let lines = [];
+    let words = text.split(' ');
+    let line = '';
+    for (let n = 0; n < words.length; n++) {
+        let testLine = line + (line ? ' ' : '') + words[n];
+        let metrics = ctx.measureText(testLine);
+        if (metrics.width > maxWidth && n > 0) {
+            lines.push(line);
+            line = words[n];
+        } else {
+            line = testLine;
+        }
+    }
+    lines.push(line);
+
+    for (let i = 0; i < lines.length; i++) {
+        let tx = x;
+        if (align === "center") {
+            tx = x + maxWidth / 2;
+            ctx.textAlign = "center";
+        } else if (align === "left") {
+            ctx.textAlign = "left";
+        }
+        ctx.fillText(lines[i], tx, y + i * lineHeight);
+    }
+}
+
 function exportarImagenFinal(formato, transparente) {
     const width = 920, height = 730;
     const canvas = document.createElement('canvas');
@@ -393,22 +421,18 @@ function exportarImagenFinal(formato, transparente) {
         ctx.textBaseline = 'top';
         ctx.fillText(nombreInput.value, nombreXv, nombreYv);
 
-        // Mensaje (multilínea)
+        // MENSAJE (Multilínea con ajuste al ancho real)
         let mensajeXv = parseInt(mensajeX.value), mensajeYv = parseInt(mensajeY.value);
         let mensajeColor = colorMensaje.value;
         let mensajeWeight = negritaMensaje.checked ? 'bold' : 'normal';
         let mensajeStyle = cursivaMensaje.checked ? 'italic' : 'normal';
-        let mensajeAlign = mensajeCentro.checked ? 'center' : (mensajeJustificar.checked ? 'left' : 'left');
+        let mensajeAlign = mensajeCentro.checked ? 'center' : 'left';
         ctx.font = `${mensajeStyle} ${mensajeWeight} 20px ${fuenteInput.value}`;
         ctx.fillStyle = mensajeColor;
-        ctx.textAlign = mensajeAlign;
         ctx.textBaseline = 'top';
-        let msg = mensajeInput.value.split('\n');
-        let currY = mensajeYv;
-        msg.forEach(linea => {
-            ctx.fillText(linea, mensajeXv, currY);
-            currY += 24;
-        });
+        let anchoMensaje = 470; // Este debe coincidir con el preview/plantilla, ajústalo si usas otro
+        let altoLinea = 24;
+        wrapText(ctx, mensajeInput.value, mensajeXv, mensajeYv, anchoMensaje, altoLinea, mensajeAlign);
 
         // Fecha
         let fechaXv = parseInt(fechaX.value), fechaYv = parseInt(fechaY.value);
