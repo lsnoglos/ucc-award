@@ -330,9 +330,11 @@ document.getElementById('generarImg').onclick = function () {
     });
 };
 
+// ==== Envuelve texto exactamente igual al preview ====
 function wrapText(ctx, text, x, y, maxWidth, lineHeight, align = "left") {
-    let lines = [];
+    const originalAlign = ctx.textAlign;
     let words = text.split(' ');
+    let lines = [];
     let line = '';
     for (let n = 0; n < words.length; n++) {
         let testLine = line + (line ? ' ' : '') + words[n];
@@ -356,7 +358,10 @@ function wrapText(ctx, text, x, y, maxWidth, lineHeight, align = "left") {
         }
         ctx.fillText(lines[i], tx, y + i * lineHeight);
     }
+    ctx.textAlign = originalAlign; // Restaurar
 }
+
+// ========== GENERA Y DESCARGA IMAGEN FINAL ==========
 
 function exportarImagenFinal(formato, transparente) {
     const width = 920, height = 730;
@@ -421,7 +426,7 @@ function exportarImagenFinal(formato, transparente) {
         ctx.textBaseline = 'top';
         ctx.fillText(nombreInput.value, nombreXv, nombreYv);
 
-        // MENSAJE (Multilínea con ajuste al ancho real)
+        // MENSAJE: exactamente igual al preview
         let mensajeXv = parseInt(mensajeX.value), mensajeYv = parseInt(mensajeY.value);
         let mensajeColor = colorMensaje.value;
         let mensajeWeight = negritaMensaje.checked ? 'bold' : 'normal';
@@ -430,7 +435,9 @@ function exportarImagenFinal(formato, transparente) {
         ctx.font = `${mensajeStyle} ${mensajeWeight} 20px ${fuenteInput.value}`;
         ctx.fillStyle = mensajeColor;
         ctx.textBaseline = 'top';
-        let anchoMensaje = 470; // Este debe coincidir con el preview/plantilla, ajústalo si usas otro
+        // Aquí el truco: usamos el ancho REAL del preview
+        let previewMensaje = document.getElementById('mensajeVista');
+        let anchoMensaje = previewMensaje.offsetWidth || 470;
         let altoLinea = 24;
         wrapText(ctx, mensajeInput.value, mensajeXv, mensajeYv, anchoMensaje, altoLinea, mensajeAlign);
 
